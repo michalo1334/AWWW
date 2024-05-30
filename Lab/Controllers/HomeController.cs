@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Lab.Models;
 using Lab.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lab.Controllers;
 
@@ -50,7 +51,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var products = _context.Products.Include(p => p.Catalog).ToList();
+        return View(products);
     }
 
     public IActionResult Privacy()

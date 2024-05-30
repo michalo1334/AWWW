@@ -1,8 +1,23 @@
-﻿@{
+﻿@using Lab.Models
+@model List<ProductModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<table>
+    <th>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Description</td>
+        <td>CatalogName</td>
+    </th>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Title</td>
+            <td>@item.Description</td>
+            <td>@item.Catalog.Title</td>
+        </tr>
+    }
+</table>
