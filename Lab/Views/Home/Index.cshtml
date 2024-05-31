@@ -6,11 +6,14 @@
 
 <table>
     <th>
+        <tr>
         <td>Id</td>
         <td>Title</td>
         <td>Description</td>
         <td>CatalogName</td>
+        </tr>
     </th>
+    <tbody>
     @foreach (var item in Model)
     {
         <tr>
@@ -20,4 +23,5 @@
             <td>@item.Catalog.Title</td>
         </tr>
     }
+    </tbody>
 </table>
