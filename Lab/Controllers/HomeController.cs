@@ -3,23 +3,26 @@ using Microsoft.AspNetCore.Mvc;
 using Lab.Models;
 using Lab.Data;
 using Microsoft.EntityFrameworkCore;
+using Lab.Interfaces;
+using Lab.Services;
+using NuGet.Packaging;
 
 namespace Lab.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly ApplicationDbContext _context;
+    private readonly IDbService _dbService;
 
 
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+    public HomeController(ILogger<HomeController> logger, IDbService dbService)
     {
         _logger = logger;
-        _context = context;
+        _dbService = dbService;
     }
 
     public IActionResult Seed() {
-        if (_context.Catalogs.Any()) {
+        if (_dbService.AnyCatalogs()) {
             return RedirectToAction("Index");
         }
 
@@ -40,10 +43,10 @@ public class HomeController : Controller
         catalog3.Products.Add(product3);
     
 
-        _context.Catalogs.AddRange(catalog1, catalog2, catalog3);
-        _context.Tags.AddRange(tag1, tag2, tag3);
-        _context.Products.AddRange(product1, product2, product3);
-        _context.SaveChanges();
+        _dbService.AddCatalogs(catalog1, catalog2, catalog3);
+        _dbService.AddTags(tag1, tag2, tag3);
+        _dbService.AddProducts(product1, product2, product3);
+        _dbService.Save();
 
 
         return RedirectToAction("Index");
@@ -51,12 +54,12 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var products = _context.Products.Include(p => p.Catalog).ToList();
+        var products = _dbService.AllProducts();
         return View(products);
     }
 
     public IActionResult Seek(string q="") {
-        var products = _context.Products.Where(p => p.Title.Contains(q)).Include(p => p.Catalog).ToList();
+        var products = _dbService.ProductsByPhrase(q);
         return View("Index", products);
     }
 
@@ -67,8 +70,8 @@ public class HomeController : Controller
 
     [HttpPost]
     public IActionResult Add(TagModel tag) {
-        _context.Tags.Add(tag);
-        _context.SaveChanges();
+        _dbService.AddTags(tag);
+        _dbService.Save();
         return RedirectToAction("Index");
     }
 
