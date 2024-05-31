@@ -4,6 +4,12 @@
     ViewData["Title"] = "Home Page";
 }
 
+<h2>Szukaj po frazie produktu</h2>
+<form asp-action="seek">
+    <input type="text" name="q"/>
+    <input type="submit" value="Szukaj"/>
+</form>
+
 <table>
     <th>
         <tr>

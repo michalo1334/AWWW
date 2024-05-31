@@ -55,6 +55,11 @@ public class HomeController : Controller
         return View(products);
     }
 
+    public IActionResult Seek(string q="") {
+        var products = _context.Products.Where(p => p.Title.Contains(q)).Include(p => p.Catalog).ToList();
+        return View("Index", products);
+    }
+
     public IActionResult Privacy()
     {
         return View();
