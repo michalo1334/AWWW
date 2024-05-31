@@ -1,0 +1,10 @@
+@using Lab.Models
+@model ProductModel
+@{
+    ViewData["Title"] = "Dodaj Tag";
+}
+<h1>Dodaj Tag</h1>
+<form asp-action="Add" method="POST">
+    <input type="text" name="Title" placeholder="Tytuł"/>
+    <input type="submit" value="Dodaj"/>
+</form>

@@ -60,6 +60,18 @@ public class HomeController : Controller
         return View("Index", products);
     }
 
+    [HttpGet]
+    public IActionResult Add() {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Add(TagModel tag) {
+        _context.Tags.Add(tag);
+        _context.SaveChanges();
+        return RedirectToAction("Index");
+    }
+
     public IActionResult Privacy()
     {
         return View();
