@@ -3,6 +3,7 @@ using System;
 using Lab.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240602192854_ShoppingCart3")]
+    partial class ShoppingCart3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -115,7 +118,7 @@ namespace Lab.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ShoppingCartId")
+                    b.Property<int>("ShoppingCartId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -375,7 +378,9 @@ namespace Lab.Data.Migrations
                 {
                     b.HasOne("Lab.Models.ShoppingCartModel", "ShoppingCart")
                         .WithOne()
-                        .HasForeignKey("Lab.Models.UserModel", "ShoppingCartId");
+                        .HasForeignKey("Lab.Models.UserModel", "ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ShoppingCart");
                 });

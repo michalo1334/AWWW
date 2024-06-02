@@ -24,5 +24,11 @@ public class ApplicationDbContext : IdentityDbContext<UserModel, IdentityRole, s
         .HasDiscriminator<string>("UType")
         .HasValue<UserModel>("user")
         .HasValue<ManagerUserModel>("manager");
+
+        //Shopping cart is the child
+        builder.Entity<ShoppingCartModel>()
+            .HasOne<UserModel>()
+            .WithOne(u => u.ShoppingCart)
+            .HasForeignKey<UserModel>(s => s.ShoppingCartId);
     }
 }
