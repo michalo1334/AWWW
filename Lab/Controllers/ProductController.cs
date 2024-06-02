@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lab.Controllers
 {
@@ -43,6 +44,7 @@ namespace Lab.Controllers
         }
 
         // GET: Product/Create
+        [Authorize(Roles = "manager")]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +55,7 @@ namespace Lab.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> Create([Bind("Id,Title,Description")] ProductModel productModel)
         {
             if (ModelState.IsValid)
@@ -65,6 +68,7 @@ namespace Lab.Controllers
         }
 
         // GET: Product/Edit/5
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,6 +89,7 @@ namespace Lab.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] ProductModel productModel)
         {
             if (id != productModel.Id)
@@ -116,6 +121,7 @@ namespace Lab.Controllers
         }
 
         // GET: Product/Delete/5
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,6 +142,7 @@ namespace Lab.Controllers
         // POST: Product/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var productModel = await _context.Products.FindAsync(id);

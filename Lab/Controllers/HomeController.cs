@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Lab.Interfaces;
 using Lab.Services;
 using NuGet.Packaging;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Lab.Controllers;
 
@@ -19,6 +21,10 @@ public class HomeController : Controller
     {
         _logger = logger;
         _dbService = dbService;
+    }
+
+    public IActionResult Test(int id) {
+        return Content($"Test {id}");
     }
 
     public IActionResult Seed() {
@@ -75,8 +81,10 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    [Authorize(Roles="manager")]
     public IActionResult Privacy()
     {
+        ViewBag.userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
         return View();
     }
 
