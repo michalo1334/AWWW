@@ -7,6 +7,7 @@ using Lab.Interfaces;
 using Lab.Services;
 using NuGet.Packaging;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Lab.Controllers;
 
@@ -83,6 +84,7 @@ public class HomeController : Controller
     [Authorize(Roles="manager")]
     public IActionResult Privacy()
     {
+        ViewBag.userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
         return View();
     }
 
