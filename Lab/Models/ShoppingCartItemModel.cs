@@ -8,6 +8,6 @@ namespace Lab.Models
         public int Id { get; set; }
         public ProductModel Product { get; set; }
 
-        public ShoppingCartModel shoppingCart { get; set; }
+        public ShoppingCartModel ShoppingCart { get; set; }
     }
 }
