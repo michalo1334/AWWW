@@ -18,15 +18,22 @@ namespace Lab.Data.Migrations
                 defaultValue: 0);
 
             migrationBuilder.CreateTable(
-                name: "ShoppingCarts",
+                name: "ShoppingCartModel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
+                    table.PrimaryKey("PK_ShoppingCartModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCartModel_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,7 +43,7 @@ namespace Lab.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ProductId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ShoppingCartId = table.Column<int>(type: "INTEGER", nullable: false)
+                    shoppingCartId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,9 +55,9 @@ namespace Lab.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShoppingCartItemModel_ShoppingCarts_ShoppingCartId",
-                        column: x => x.ShoppingCartId,
-                        principalTable: "ShoppingCarts",
+                        name: "FK_ShoppingCartItemModel_ShoppingCartModel_shoppingCartId",
+                        column: x => x.shoppingCartId,
+                        principalTable: "ShoppingCartModel",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -67,15 +74,20 @@ namespace Lab.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCartItemModel_ShoppingCartId",
+                name: "IX_ShoppingCartItemModel_shoppingCartId",
                 table: "ShoppingCartItemModel",
-                column: "ShoppingCartId");
+                column: "shoppingCartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCartModel_UserId",
+                table: "ShoppingCartModel",
+                column: "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_ShoppingCarts_ShoppingCartId",
+                name: "FK_AspNetUsers_ShoppingCartModel_ShoppingCartId",
                 table: "AspNetUsers",
                 column: "ShoppingCartId",
-                principalTable: "ShoppingCarts",
+                principalTable: "ShoppingCartModel",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -84,14 +96,14 @@ namespace Lab.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_ShoppingCarts_ShoppingCartId",
+                name: "FK_AspNetUsers_ShoppingCartModel_ShoppingCartId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "ShoppingCartItemModel");
 
             migrationBuilder.DropTable(
-                name: "ShoppingCarts");
+                name: "ShoppingCartModel");
 
             migrationBuilder.DropIndex(
                 name: "IX_AspNetUsers_ShoppingCartId",

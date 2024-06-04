@@ -3,6 +3,7 @@ using System;
 using Lab.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240602193038_ShoppingCart5")]
+    partial class ShoppingCart5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -41,14 +44,14 @@ namespace Lab.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ShoppingCartId")
+                    b.Property<int>("shoppingCartId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("ShoppingCartId");
+                    b.HasIndex("shoppingCartId");
 
                     b.ToTable("ShoppingCartItemModel");
                 });
@@ -67,7 +70,7 @@ namespace Lab.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingCarts");
+                    b.ToTable("ShoppingCartModel");
                 });
 
             modelBuilder.Entity("Lab.Models.UserModel", b =>
@@ -349,15 +352,15 @@ namespace Lab.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Lab.Models.ShoppingCartModel", "ShoppingCart")
+                    b.HasOne("Lab.Models.ShoppingCartModel", "shoppingCart")
                         .WithMany("Items")
-                        .HasForeignKey("ShoppingCartId")
+                        .HasForeignKey("shoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");
 
-                    b.Navigation("ShoppingCart");
+                    b.Navigation("shoppingCart");
                 });
 
             modelBuilder.Entity("Lab.Models.ShoppingCartModel", b =>

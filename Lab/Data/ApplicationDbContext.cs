@@ -28,10 +28,9 @@ public class ApplicationDbContext : IdentityDbContext<UserModel, IdentityRole, s
         .HasValue<ManagerUserModel>("manager");
 
         //Shopping cart is the child
-        builder.Entity<UserModel>()
-            .HasOne<ShoppingCartModel>(u => u.ShoppingCart)
-            .WithOne(u => u.User)
-            .HasForeignKey<UserModel>(sc => sc.ShoppingCartId)
-            .IsRequired();
+        builder.Entity<ShoppingCartModel>()
+            .HasOne<UserModel>()
+            .WithOne(u => u.ShoppingCart)
+            .HasForeignKey<UserModel>(s => s.ShoppingCartId);
     }
 }

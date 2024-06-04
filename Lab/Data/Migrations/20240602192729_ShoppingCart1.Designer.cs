@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240604125435_ShoppingCart1")]
+    [Migration("20240602192729_ShoppingCart1")]
     partial class ShoppingCart1
     {
         /// <inheritdoc />
@@ -44,14 +44,14 @@ namespace Lab.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ShoppingCartId")
+                    b.Property<int>("shoppingCartId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("ShoppingCartId");
+                    b.HasIndex("shoppingCartId");
 
                     b.ToTable("ShoppingCartItemModel");
                 });
@@ -62,9 +62,15 @@ namespace Lab.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.ToTable("ShoppingCarts");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ShoppingCartModel");
                 });
 
             modelBuilder.Entity("Lab.Models.UserModel", b =>
@@ -346,21 +352,32 @@ namespace Lab.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Lab.Models.ShoppingCartModel", "ShoppingCart")
+                    b.HasOne("Lab.Models.ShoppingCartModel", "shoppingCart")
                         .WithMany("Items")
-                        .HasForeignKey("ShoppingCartId")
+                        .HasForeignKey("shoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");
 
-                    b.Navigation("ShoppingCart");
+                    b.Navigation("shoppingCart");
+                });
+
+            modelBuilder.Entity("Lab.Models.ShoppingCartModel", b =>
+                {
+                    b.HasOne("Lab.Models.UserModel", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Lab.Models.UserModel", b =>
                 {
                     b.HasOne("Lab.Models.ShoppingCartModel", "ShoppingCart")
-                        .WithOne("User")
+                        .WithOne()
                         .HasForeignKey("Lab.Models.UserModel", "ShoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -451,9 +468,6 @@ namespace Lab.Data.Migrations
             modelBuilder.Entity("Lab.Models.ShoppingCartModel", b =>
                 {
                     b.Navigation("Items");
-
-                    b.Navigation("User")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
