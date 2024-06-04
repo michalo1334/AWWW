@@ -5,9 +5,9 @@ namespace Lab.Models
 {
     public class UserModel : IdentityUser
     {
-        public int? ShoppingCartId { get; set; }
-
-        [ForeignKey("ShoppingCartId")]
-        public ShoppingCartModel? ShoppingCart { get; set; }
+        public int ShoppingCartId { get; set; }
+        
+        [ForeignKey(nameof(ShoppingCartId))]
+        public ShoppingCartModel ShoppingCart { get; set; } = new();
     }
 }

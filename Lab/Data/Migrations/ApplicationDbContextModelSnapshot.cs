@@ -59,13 +59,7 @@ namespace Lab.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ShoppingCarts");
                 });
@@ -115,7 +109,7 @@ namespace Lab.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ShoppingCartId")
+                    b.Property<int>("ShoppingCartId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -360,22 +354,13 @@ namespace Lab.Data.Migrations
                     b.Navigation("ShoppingCart");
                 });
 
-            modelBuilder.Entity("Lab.Models.ShoppingCartModel", b =>
-                {
-                    b.HasOne("Lab.Models.UserModel", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Lab.Models.UserModel", b =>
                 {
                     b.HasOne("Lab.Models.ShoppingCartModel", "ShoppingCart")
-                        .WithOne()
-                        .HasForeignKey("Lab.Models.UserModel", "ShoppingCartId");
+                        .WithOne("User")
+                        .HasForeignKey("Lab.Models.UserModel", "ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ShoppingCart");
                 });
@@ -463,6 +448,9 @@ namespace Lab.Data.Migrations
             modelBuilder.Entity("Lab.Models.ShoppingCartModel", b =>
                 {
                     b.Navigation("Items");
+
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

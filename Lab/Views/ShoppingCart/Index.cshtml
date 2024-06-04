@@ -1,0 +1,22 @@
+@model ShoppingCartModel
+
+<h3>Shopping cart</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (ShoppingCartItemModel item in Model.Items)
+        {
+            <tr>
+                <td>@item.Product.Title ?? ""</td>
+                <td>
+                    <form asp-action="RemoveFromCart" asp-route-id="@item.Id">
+                        <input type="submit" value="Remove from Cart" />
+                    </form>
+                </td>
+            </tr>
+        }
+</table>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab.Data;
 using Microsoft.AspNetCore.Authorization;
+using Lab.Models;
 
 namespace Lab.Controllers
 {
@@ -153,7 +154,65 @@ namespace Lab.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        } 
+
+        // POST: Product/AddToCart/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles="customer")]
+        public async Task<IActionResult> AddToCart(int id)
+        {
+            var shoppingCart = await _context.ShoppingCarts
+                .Include(s => s.Items)
+                .FirstOrDefaultAsync(s => s.User.Id == User.Identity.Name);
+            if (shoppingCart == null)
+            {
+                shoppingCart = new ShoppingCartModel();
+            }
+
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            shoppingCart.Items.Add(new ShoppingCartItemModel()
+            {
+                Product = product
+            });
+
+            await _context.SaveChangesAsync();
+
+            // Add product to cart
+            return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles="customer")]
+        public async Task<IActionResult> RemoveFromCart(int id)
+        {
+            var shoppingCart = await _context.ShoppingCarts
+                .Include(s => s.Items)
+                .FirstOrDefaultAsync(s => s.User.Id == User.Identity.Name);
+            if (shoppingCart == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var item = shoppingCart.Items.FirstOrDefault(i => i.Product.Id == id);
+            if (item != null)
+            {
+                shoppingCart.Items.Remove(item);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
 
         private bool ProductModelExists(int id)
         {
