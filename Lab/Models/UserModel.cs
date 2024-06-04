@@ -4,5 +4,6 @@ namespace Lab.Models
 {
     public class UserModel : IdentityUser
     {
+        public ShoppingCartModel ShoppingCart { get; set; }
     }
 }
