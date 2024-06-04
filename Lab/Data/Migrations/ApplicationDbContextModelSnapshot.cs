@@ -32,44 +32,6 @@ namespace Lab.Data.Migrations
                     b.ToTable("Catalogs");
                 });
 
-            modelBuilder.Entity("Lab.Models.ShoppingCartItemModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("shoppingCartId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("shoppingCartId");
-
-                    b.ToTable("ShoppingCartItemModel");
-                });
-
-            modelBuilder.Entity("Lab.Models.ShoppingCartModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ShoppingCartModel");
-                });
-
             modelBuilder.Entity("Lab.Models.UserModel", b =>
                 {
                     b.Property<string>("Id")
@@ -115,9 +77,6 @@ namespace Lab.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ShoppingCartId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
 
@@ -138,9 +97,6 @@ namespace Lab.Data.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
-
-                    b.HasIndex("ShoppingCartId")
-                        .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
 
@@ -341,45 +297,6 @@ namespace Lab.Data.Migrations
                     b.HasDiscriminator().HasValue("manager");
                 });
 
-            modelBuilder.Entity("Lab.Models.ShoppingCartItemModel", b =>
-                {
-                    b.HasOne("ProductModel", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lab.Models.ShoppingCartModel", "shoppingCart")
-                        .WithMany("Items")
-                        .HasForeignKey("shoppingCartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("shoppingCart");
-                });
-
-            modelBuilder.Entity("Lab.Models.ShoppingCartModel", b =>
-                {
-                    b.HasOne("Lab.Models.UserModel", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Lab.Models.UserModel", b =>
-                {
-                    b.HasOne("Lab.Models.ShoppingCartModel", "ShoppingCart")
-                        .WithOne()
-                        .HasForeignKey("Lab.Models.UserModel", "ShoppingCartId");
-
-                    b.Navigation("ShoppingCart");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -458,11 +375,6 @@ namespace Lab.Data.Migrations
             modelBuilder.Entity("CatalogModel", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Lab.Models.ShoppingCartModel", b =>
-                {
-                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
