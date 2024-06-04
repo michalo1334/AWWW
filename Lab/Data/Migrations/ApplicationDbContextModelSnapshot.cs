@@ -67,7 +67,7 @@ namespace Lab.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingCarts");
+                    b.ToTable("ShoppingCartModel");
                 });
 
             modelBuilder.Entity("Lab.Models.UserModel", b =>
@@ -115,7 +115,7 @@ namespace Lab.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ShoppingCartId")
+                    b.Property<int>("ShoppingCartId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -375,7 +375,9 @@ namespace Lab.Data.Migrations
                 {
                     b.HasOne("Lab.Models.ShoppingCartModel", "ShoppingCart")
                         .WithOne()
-                        .HasForeignKey("Lab.Models.UserModel", "ShoppingCartId");
+                        .HasForeignKey("Lab.Models.UserModel", "ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ShoppingCart");
                 });
