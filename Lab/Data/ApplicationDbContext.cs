@@ -24,5 +24,7 @@ public class ApplicationDbContext : IdentityDbContext<UserModel, IdentityRole, s
         .HasDiscriminator<string>("UType")
         .HasValue<UserModel>("user")
         .HasValue<ManagerUserModel>("manager");
+
+    
     }
 }
