@@ -8,6 +8,6 @@ namespace Lab.Models
         public int ShoppingCartId { get; set; }
         
         [ForeignKey("ShoppingCartId")]
-        public ShoppingCartModel ShoppingCart { get; set; }
+        public virtual ShoppingCartModel ShoppingCart { get; set; } = new();
     }
 }
