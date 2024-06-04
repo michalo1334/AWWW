@@ -14,6 +14,8 @@ public class ApplicationDbContext : IdentityDbContext<UserModel, IdentityRole, s
 
     public DbSet<ShoppingCartModel> ShoppingCarts { get; set; }
 
+    public DbSet<ShoppingCartItemModel> ShoppingCartItems { get; set;}
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {

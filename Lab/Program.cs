@@ -50,7 +50,7 @@ app.MapRazorPages();
 
 
 
-//Seed(builder.Services);
+Seed(builder.Services);
 
 async void Seed(IServiceCollection services)
 {
