@@ -38,6 +38,101 @@ public class ShoppingCartController : Controller
     }
 
     [Authorize(Roles = "customer")]
+    public async Task<IActionResult> AddToCart(int id)
+    {
+        var userId = _userManager.GetUserId(User);
+
+        UserModel userFull = await _context.Users
+            .Where(u => u.Id == userId)
+            .Include(u => u.ShoppingCart)
+            .ThenInclude(sc => sc.Items)
+            .ThenInclude(sci => sci.Product)
+            .FirstOrDefaultAsync()!;
+
+        var product = await _context.Products.FindAsync(id);
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        var sc = userFull.ShoppingCart;
+
+        if(sc.Items.Any(i => i.Product.Id == id))
+        {
+            var item = sc.Items.First(i => i.Product.Id == id);
+            item.Quantity++;
+        }
+        else
+        {
+            sc.Items.Add(new ShoppingCartItemModel { Product = product, Quantity = 1 });
+        }
+
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
+    }
+
+    [Authorize(Roles = "customer")]    
+    public async Task<IActionResult> RemoveFromCart(int id)
+    {
+        var userId = _userManager.GetUserId(User);
+
+        UserModel userFull = await _context.Users
+            .Where(u => u.Id == userId)
+            .Include(u => u.ShoppingCart)
+            .ThenInclude(sc => sc.Items)
+            .ThenInclude(sci => sci.Product)
+            .FirstOrDefaultAsync()!;
+
+        var product = await _context.Products.FindAsync(id);
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        var sc = userFull.ShoppingCart;
+
+        if (sc.Items.Any(i => i.Product.Id == id))
+        {
+            var item = sc.Items.First(i => i.Product.Id == id);
+            item.Quantity--;
+
+            if (item.Quantity == 0)
+            {
+                sc.Items.Remove(item);
+            }
+        }
+
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
+    } 
+
+    [Authorize(Roles = "customer")]
+    public async Task<IActionResult> ClearCart()
+    {
+        var userId = _userManager.GetUserId(User);
+
+        UserModel userFull = await _context.Users
+            .Where(u => u.Id == userId)
+            .Include(u => u.ShoppingCart)
+            .ThenInclude(sc => sc.Items)
+            .ThenInclude(sci => sci.Product)
+            .FirstOrDefaultAsync()!;
+
+        var sc = userFull.ShoppingCart;
+
+        sc.Items.Clear();
+
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
+    }
+    
+
+    [Authorize(Roles = "customer")]
     public async Task<IActionResult> Seed()
     {
         var user = await _userManager.GetUserAsync(User);
