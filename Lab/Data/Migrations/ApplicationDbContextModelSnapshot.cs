@@ -41,14 +41,14 @@ namespace Lab.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ShoppingCartId")
+                    b.Property<int>("shoppingCartId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("ShoppingCartId");
+                    b.HasIndex("shoppingCartId");
 
                     b.ToTable("ShoppingCartItemModel");
                 });
@@ -349,15 +349,15 @@ namespace Lab.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Lab.Models.ShoppingCartModel", "ShoppingCart")
+                    b.HasOne("Lab.Models.ShoppingCartModel", "shoppingCart")
                         .WithMany("Items")
-                        .HasForeignKey("ShoppingCartId")
+                        .HasForeignKey("shoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");
 
-                    b.Navigation("ShoppingCart");
+                    b.Navigation("shoppingCart");
                 });
 
             modelBuilder.Entity("Lab.Models.ShoppingCartModel", b =>
