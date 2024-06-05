@@ -9,6 +9,7 @@ using NuGet.Packaging;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Net;
 
 namespace Lab.Controllers;
 
@@ -61,6 +62,10 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        //return Forbid();
+        //return Unauthorized();
+        //StatusCode(500);
+
         var products = _dbService.AllProducts();
         return View(products);
     }
