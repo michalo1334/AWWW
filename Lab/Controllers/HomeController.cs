@@ -8,6 +8,7 @@ using Lab.Services;
 using NuGet.Packaging;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Lab.Controllers;
 
@@ -91,6 +92,11 @@ public class HomeController : Controller
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(new ErrorViewModel { 
+            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+            Code = HttpContext.Response.StatusCode,
+            Title = ReasonPhrases.GetReasonPhrase(HttpContext.Response.StatusCode),
+            Message = null
+            });
     }
 }

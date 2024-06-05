@@ -16,14 +16,19 @@ namespace Lab.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        private readonly IStringLocalizer<ProductController> _localizer;
+
         public ProductController(ApplicationDbContext context, IStringLocalizer<ProductController> localizer)
         {
             _context = context;
+            _localizer = localizer;
         }
 
         // GET: Product
         public async Task<IActionResult> Index()
         {
+            ViewData["Title"] = _localizer["Title"];
+            
             return View(await _context.Products.ToListAsync());
         }
 
