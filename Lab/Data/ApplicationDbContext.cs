@@ -12,6 +12,10 @@ public class ApplicationDbContext : IdentityDbContext<UserModel, IdentityRole, s
     public DbSet<ProductModel> Products { get; set; }
     public DbSet<CatalogModel> Catalogs { get; set; }
 
+    public DbSet<ShoppingCartModel> ShoppingCarts { get; set; }
+
+    public DbSet<ShoppingCartItemModel> ShoppingCartItems { get; set;}
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
@@ -24,5 +28,7 @@ public class ApplicationDbContext : IdentityDbContext<UserModel, IdentityRole, s
         .HasDiscriminator<string>("UType")
         .HasValue<UserModel>("user")
         .HasValue<ManagerUserModel>("manager");
+
+    
     }
 }
