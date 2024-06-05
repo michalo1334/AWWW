@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Lab.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
+using Lab.Models;
 
 namespace Lab.Controllers
 {

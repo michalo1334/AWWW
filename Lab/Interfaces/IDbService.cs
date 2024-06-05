@@ -1,3 +1,5 @@
+using Lab.Models;
+
 namespace Lab.Interfaces
 {
     public interface IDbService

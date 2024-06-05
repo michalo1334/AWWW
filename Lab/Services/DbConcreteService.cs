@@ -3,6 +3,7 @@ namespace Lab.Services;
 using System.Collections;
 using Lab.Data;
 using Lab.Interfaces;
+using Lab.Models;
 using Microsoft.EntityFrameworkCore;
 
 public class DbConcreteService : IDbService
