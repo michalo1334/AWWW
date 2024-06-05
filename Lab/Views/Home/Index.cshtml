@@ -1,13 +1,15 @@
 ﻿@using Lab.Models
+@using Microsoft.AspNetCore.Mvc.Localization
 @model List<ProductModel>
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<h2>Szukaj po frazie produktu</h2>
+<h2>@Localizer["Search by phrase"]</h2>
 <form asp-action="seek">
     <input type="text" name="q"/>
-    <input type="submit" value="Szukaj"/>
+    <input type="submit" value="@Localizer["Search"]"/>
 </form>
 
 <table>

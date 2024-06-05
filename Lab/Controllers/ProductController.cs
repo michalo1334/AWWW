@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Localization;
+using Lab.Models;
 
 namespace Lab.Controllers
 {
@@ -14,7 +16,7 @@ namespace Lab.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductController(ApplicationDbContext context, IStringLocalizer<ProductController> localizer)
         {
             _context = context;
         }
