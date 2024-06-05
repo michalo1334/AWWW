@@ -8,6 +8,8 @@ using NuGet.Packaging;
 
 namespace Lab.Controllers;
 
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+
 public class ShoppingCartController : Controller
 {
     private readonly UserManager<UserModel> _userManager;
@@ -30,7 +32,6 @@ public class ShoppingCartController : Controller
             .ThenInclude(sc => sc.Items)
             .ThenInclude(sci => sci.Product)
             .FirstOrDefaultAsync()!;
-
 
         var shoppingCart = userFull.ShoppingCart;
 
