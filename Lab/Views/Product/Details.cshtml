@@ -1,30 +1,44 @@
-@model ProductModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@model Lab.ViewModels.ProductViewModel
+@inject IHtmlLocalizer<Lab.Models.ProductModel> Localizer
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Localizer["Details"];
 }
 
-<h1>Details</h1>
+<h1>@Localizer["Details"]</h1>
 
 <div>
-    <h4>ProductModel</h4>
+    <h4>@Localizer["ProductModel"]</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+        <dt class="col-sm-2">
+            @Localizer["Title"]
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
+        <dd class="col-sm-10">
+            @Model.Title
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+        <dt class="col-sm-2">
+            @Localizer["Description"]
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+        <dd class="col-sm-10">
+            @Model.Description
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["Catalog"]
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CatalogName
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["Tags"]
+        </dt>
+        <dd class="col-sm-10">
+            @string.Join(", ", Model.Tags.Select(t => t.Title))
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">@Localizer["Edit"]</a> |
+    <a asp-action="Index">@Localizer["Back to List"]</a>
 </div>
