@@ -1,12 +1,14 @@
-@model ProductModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@model Lab.ViewModels.ProductViewModel
+@inject IHtmlLocalizer<Lab.Models.ProductModel> Localizer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = Localizer["Create"];
 }
 
-<h1>Create</h1>
+<h1>@Localizer["Create"]</h1>
 
-<h4>ProductModel</h4>
+<h4>@Localizer["ProductModel"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,13 +25,21 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label for="Catalog">@Localizer["Catalog"]</label>
+                <select asp-for="CatalogName" class="form-control" asp-items="ViewBag.AvailableCatalogs"></select>
+                <span asp-validation-for="CatalogName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Tags">@Localizer["Tags"]</label>
+                <select asp-for="TagIds" class="form-control" multiple="multiple" asp-items="ViewBag.AvailableTags"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@Localizer["Create"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["Back to List"]</a>
 </div>
-

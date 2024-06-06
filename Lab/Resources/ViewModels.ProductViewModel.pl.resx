@@ -117,8 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Search" xml:space="preserve">
-    <value>fd</value>
+  <data name="Description must be less than 3000 characters and not contain HTML tags" xml:space="preserve">
+    <value>Opis musi mieć mniej niż 3000 znaków i nie zawierać tagów HTML</value>
+    <comment/>
+  </data>
+  <data name="Product name must start with a capital letter and contain 5-25 characters" xml:space="preserve">
+    <value>Nazwa produktu musi zaczynać się wielką literą i mieć między 5 a 25 znaków</value>
     <comment/>
   </data>
 </root>

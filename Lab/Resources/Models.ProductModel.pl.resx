@@ -137,4 +137,16 @@
     <value>Nazwa produktu musi zaczynać się wielką literą i mieć między 5 a 25 znaków</value>
     <comment/>
   </data>
+  <data name="Catalog not found" xml:space="preserve">
+    <value>Nie znaleziono katalogu</value>
+    <comment/>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Nazwa katalogu</value>
+    <comment/>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Lista tagów</value>
+    <comment/>
+  </data>
 </root>
