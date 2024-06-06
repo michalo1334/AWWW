@@ -5,6 +5,7 @@ using Lab.Interfaces;
 using Lab.Services;
 using Lab.Models;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Lab;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,8 @@ builder.Services.AddMvc()
 
 builder.Services.AddScoped<IDbService, DbConcreteService>();
 
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 // Configure localization middleware
@@ -39,7 +42,6 @@ var supportedCultures = new[] { "en-US", "pl" }; // Add your supported cultures 
 var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
     .AddSupportedCultures(supportedCultures)
     .AddSupportedUICultures(supportedCultures);
-
 app.UseRequestLocalization(localizationOptions);
 
 // Configure the HTTP request pipeline.
@@ -53,6 +55,9 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseStatusCodePagesWithReExecute("/Home/Error");
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
